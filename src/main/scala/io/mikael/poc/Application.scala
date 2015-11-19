@@ -1,5 +1,6 @@
 package io.mikael.poc
 
+import java.sql.ResultSet
 import javax.sql.DataSource
 
 import org.json4s.{DefaultFormats, Formats}
@@ -13,22 +14,19 @@ import org.springframework.context.annotation.Bean
 import org.springframework.stereotype.Repository
 
 object Application {
-
   def main(args: Array[String]) {
     SpringApplication.run(classOf[Application], args:_*)
   }
-
 }
 
 @SpringBootApplication
 class Application {
 
   @Bean
-  def customServletRegistrationBean(customServlet : CustomServlet) : ServletRegistrationBean =
-    new ServletRegistrationBean(customServlet, "/*")
+  def customServletRegistrationBean(customServlet : CustomServlet) = new ServletRegistrationBean(customServlet, "/*")
 
   @Bean
-  def customServlet(dataSource : DataSource) : CustomServlet = new CustomServlet(dataSource)
+  def customServlet(dataSource : DataSource) = new CustomServlet(dataSource)
 
 }
 
@@ -39,13 +37,19 @@ class CustomServlet(dataSource : DataSource) extends ScalatraServlet with Jackso
 
   private val jdbcTemplate = new JdbcTemplate(dataSource)
 
+  private val ALL_RESTAURANTS = "SELECT id, name FROM restaurants"
+
+  private val MAP_RESTAURANT = (rs : ResultSet, i : Int) => Restaurant(rs.getInt(1), rs.getString(2))
+
   get("/") {
     "index page, SPA?"
   }
 
   get("/api/restaurants") {
     contentType = formats("json")
-    jdbcTemplate.queryAndMap("SELECT * FROM restaurants")((rs, i) => { rs.getString("name") })
+    jdbcTemplate.queryAndMap(ALL_RESTAURANTS)(MAP_RESTAURANT)
   }
 
 }
+
+case class Restaurant(id : Int, name : String)
