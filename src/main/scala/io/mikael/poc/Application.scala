@@ -40,12 +40,12 @@ class CustomServlet(dataSource : DataSource) extends ScalatraServlet with Jackso
   private val jdbcTemplate = new JdbcTemplate(dataSource)
 
   get("/") {
-    "index page"
+    "index page, SPA?"
   }
 
   get("/api/restaurants") {
     contentType = formats("json")
-    jdbcTemplate.queryAndMap("SELECT name FROM restaurants")((rs, i) => { rs.getString(1) })
+    jdbcTemplate.queryAndMap("SELECT * FROM restaurants")((rs, i) => { rs.getString("name") })
   }
 
 }
