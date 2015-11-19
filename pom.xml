@@ -22,15 +22,10 @@
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <java.version>1.8</java.version>
         <scala.version>2.11.7</scala.version>
-        <scalatra.version>2.3.2-SNAPSHOT</scalatra.version>
+        <scalatra.version>2.3.1</scalatra.version>
     </properties>
 
     <repositories>
-        <repository>
-            <id>sonatype-snapshots</id>
-            <url>http://oss.sonatype.org/content/repositories/snapshots/</url>
-            <snapshots><enabled>true</enabled></snapshots>
-        </repository>
         <repository>
             <id>sonatype-releases</id>
             <url>http://oss.sonatype.org/content/repositories/releases/</url>
@@ -82,12 +77,6 @@
         <dependency>
             <groupId>org.scalatra</groupId>
             <artifactId>scalatra-json_2.11</artifactId>
-            <version>${scalatra.version}</version>
-        </dependency>
-
-        <dependency>
-            <groupId>org.scalatra</groupId>
-            <artifactId>scalatra-spring_2.11</artifactId>
             <version>${scalatra.version}</version>
         </dependency>
 
